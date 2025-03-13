@@ -7,11 +7,17 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  deploy:
 
     runs-on: 
             self-hosted
 
     steps:
-    - uses: actions/checkout@v4
-    
+      - name: checkout repository
+        uses: actions/checkout@v4
+   
+  
+      - name: Deploy to Web Server
+        run: |
+          cp -r * /var/www/html/  # Change to your web root directory
+          sudo systemctl restart apache2  # Restart Apache (if needed)
