@@ -19,5 +19,7 @@ jobs:
   
       - name: Deploy to Web Server
         run: |
-          cp -r * /var/www/html/  # Change to your web root directory
-          sudo systemctl restart apache2  # Restart Apache (if needed)
+              sudo rm -rf /var/www/html/*
+              sudo cp -r * /var/www/html/
+               sudo chmod -R 755 /var/www/html/  # Ensure proper permissions
+                sudo systemctl restart apache2  # Restart Apache
