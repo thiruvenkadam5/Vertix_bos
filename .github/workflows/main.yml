@@ -1,4 +1,4 @@
-name: thiru CI
+name: thiru Cd
 
 on:
   push:
@@ -13,23 +13,3 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Debug GITHUB_WORKSPACE
-        run: |
-          echo "GITHUB_WORKSPACE is: $GITHUB_WORKSPACE"
-          ls -lah "$GITHUB_WORKSPACE"
-
-      - name: Set Permissions
-        run: |
-          sudo chmod -R 755 "$GITHUB_WORKSPACE"
-
-      - name: Deploy to Web Server
-        run: |
-          sudo cp -r "$GITHUB_WORKSPACE"/* /var/www/html/
-          sudo chown -R www-data:www-data /var/www/html/
-          sudo chmod -R 755 /var/www/html/
-
-      - name: Restart Apache and Check Status
-        run: |
-          sudo systemctl restart apache2
-          sudo systemctl status apache2 --no-pager
