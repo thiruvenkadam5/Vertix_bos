@@ -8,18 +8,28 @@ on:
 
 jobs:
   deploy:
-
-    runs-on: 
-            self-hosted
+    runs-on: self-hosted
 
     steps:
-      - name: checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
-   
-  
+
+      - name: Debug GITHUB_WORKSPACE
+        run: |
+          echo "GITHUB_WORKSPACE is: $GITHUB_WORKSPACE"
+          ls -lah "$GITHUB_WORKSPACE"
+
+      - name: Set Permissions
+        run: |
+          sudo chmod -R 755 "$GITHUB_WORKSPACE"
+
       - name: Deploy to Web Server
         run: |
-              
-              sudo cp -r * /var/www/html/
-                sudo cp -r "$GITHUB_WORKSPACE"/* /var/www/html/ # Ensure proper permissions
-                sudo systemctl restart apache2  # Restart Apache
+          sudo cp -r "$GITHUB_WORKSPACE"/* /var/www/html/
+          sudo chown -R www-data:www-data /var/www/html/
+          sudo chmod -R 755 /var/www/html/
+
+      - name: Restart Apache and Check Status
+        run: |
+          sudo systemctl restart apache2
+          sudo systemctl status apache2 --no-pager
