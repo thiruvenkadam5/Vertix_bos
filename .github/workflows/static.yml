@@ -12,10 +12,8 @@
           - name: Checkout code
             uses: actions/checkout@v3
 
-          - name: Run deployment script
+          - name: Run deployment
             run: |
               # Replace with your deployment commands
-              echo "Deploying..."
-               scp -r /var/www/html/vertix_bos ubuntu@ip-172-31-47-30:~/actions-runner
-               #ssh root@ip-172-31-47-30 "cd /var/www/html/vertix_bos"
-            shell: bash
+              echo "My secret key is: ${{ secrets.SSH_PRIVATE_KEY }}"
+               
