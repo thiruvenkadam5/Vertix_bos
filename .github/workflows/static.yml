@@ -1,4 +1,4 @@
-name: satrt deploy 
+name: Android CI
 
 on:
   push:
@@ -16,4 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-
+      - name: Run deployment
+        run: |
+          # Replace with your deployment commands
+          echo "My secret key is: ${{ secrets.SSH_PRIVATE_KEY }}"
