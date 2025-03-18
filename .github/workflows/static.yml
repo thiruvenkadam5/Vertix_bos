@@ -29,4 +29,5 @@ jobs:
           port: 22
           script: | 
             cd /var/www/html/vertixxx
+            git config --global --add safe.directory /var/www/html/vertixxx
              git pull origin main
