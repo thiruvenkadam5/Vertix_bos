@@ -1,22 +1,32 @@
-name: Android CI
-
+name: Laravel-deployment
+ 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-
+ 
 jobs:
   deploy:
-    runs-on: [self-hosted, label-1]  # Corrected syntax
-
+    runs-on: self-hosted
+ 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Run deployment
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+ 
+      - name: Setup SSH for GitHub
         run: |
-          # Replace with your deployment commands
-          echo "My secret key is: ${{ secrets.SSH_PRIVATE_KEY }}"
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+ 
+      - name: Deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PEM21_KEY }}
+          port: 22
+          script: | 
+            cd /var/www/html/vertixxx
+             git pull origin main
