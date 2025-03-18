@@ -1,0 +1,22 @@
+name: Android CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, label-1]  # Corrected syntax
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run deployment
+        run: |
+          # Replace with your deployment commands
+          echo "My secret key is: ${{ secrets.SSH_PRIVATE_KEY }}"
