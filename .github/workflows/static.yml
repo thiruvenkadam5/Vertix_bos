@@ -1,4 +1,4 @@
-name: Laravel-deployment
+name: HTML-CSS
  
 on:
   push:
@@ -28,6 +28,6 @@ jobs:
           key: ${{ secrets.SSH_PEM21_KEY }}
           port: 22
           script: | 
-            cd /var/www/html/test/iview-plant
+            cd /var/www/html/vertixxx
              git pull origin main
-            php artisan optimize:clear
+           
