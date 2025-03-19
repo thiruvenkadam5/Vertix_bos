@@ -1,4 +1,4 @@
-name: deployment
+name: Laravel-deployment
  
 on:
   push:
@@ -25,9 +25,9 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PEM21_KEY }}
           port: 22
           script: | 
-            cd /var/www/html/vertixxx
-            git config --global --add safe.directory /var/www/html/vertixxx
+            cd /var/www/html/test/iview-plant
              git pull origin main
+            php artisan optimize:clear
