@@ -33,4 +33,3 @@ jobs:
              git branch
              git remote -v
              git pull origin main
-             git branch
