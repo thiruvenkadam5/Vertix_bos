@@ -35,7 +35,7 @@ jobs:
             git remote set-url origin https://${{ secrets.GH_TOKEN }}@github.com/thiruvenkadam5/Vertix_bos.git
             
             # Pull changes
-            git config --global --add safe.directory /var/www/html/vertixxx
+            # git config --global --add safe.directory /var/www/html/vertixxx
             git pull origin main
             
             # Fix any remaining permissions
