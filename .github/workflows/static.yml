@@ -28,8 +28,8 @@ jobs:
             sudo chmod -R 755 .
             
             # Clean git state
-            git reset --hard
-            git clean -fd
+            #git reset --hard
+            #git clean -fd
             
             # Set correct remote URL (using HTTPS with token)
             git remote set-url origin https://${{ secrets.GH_TOKEN }}@github.com/thiruvenkadam5/Vertix_bos.git
