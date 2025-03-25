@@ -38,8 +38,7 @@ jobs:
           script: |
             cd /var/www/html/vertixxx
             # Update origin URL if needed
-            git remote set-url origin  git@github.com:thiruvenkadam5/Vertix_bos.git 
-            # Pull changes
+            https://github.com/thiruvenkadam5/Vertix_bos.git            # Pull changes
             git pull origin main
             # Add any post-deploy commands here
             # Example: npm install, composer install, etc.
