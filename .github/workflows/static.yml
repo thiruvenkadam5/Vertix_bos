@@ -37,17 +37,10 @@ jobs:
           port: 22
           script: |
             cd /var/www/html/vertixxx
-            # Fix potential git security warnings
-            git config --global --add safe.directory /var/www/html/vertixxx
             # Update origin URL if needed
-            git remote set-url origin git@github.com:your-username/your-repo.git
-            # Clean working directory
-            git clean -fd
-            git reset --hard
+            git remote set-url origin  git@github.com:thiruvenkadam5/Vertix_bos.git 
             # Pull changes
-            git fetch origin main
-            git checkout main
-            git reset --hard origin/main
+            git pull origin main
             # Add any post-deploy commands here
             # Example: npm install, composer install, etc.
             echo "Deployment completed successfully!"
