@@ -7,24 +7,29 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted  # Fixed typo from "self-hosted"
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetches all history for all branches
+          fetch-depth: 0
+          # If using private repo, add your PAT
+          token: ${{ secrets.GH_TOKEN }}
 
-      - name: Setup SSH Environment
+      - name: Setup SSH for GitHub Access
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          
+          # Test GitHub connection
+          ssh -T git@github.com || true
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.1.0  # Using latest stable version
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ubuntu
@@ -32,8 +37,17 @@ jobs:
           port: 22
           script: |
             cd /var/www/html/vertixxx
+            # Fix potential git security warnings
             git config --global --add safe.directory /var/www/html/vertixxx
+            # Update origin URL if needed
             git remote set-url origin git@github.com:your-username/your-repo.git
-            git fetch origin
+            # Clean working directory
+            git clean -fd
+            git reset --hard
+            # Pull changes
+            git fetch origin main
             git checkout main
-            git
+            git reset --hard origin/main
+            # Add any post-deploy commands here
+            # Example: npm install, composer install, etc.
+            echo "Deployment completed successfully!"
