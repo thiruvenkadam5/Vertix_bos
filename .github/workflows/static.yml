@@ -1,35 +1,43 @@
-name: HTML-CSS
- 
+name: Deploy to Production Server
+
 on:
   push:
     branches:
       - main
- 
+
 jobs:
   deploy:
     runs-on: self-hosted
- 
+
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
- 
-      - name: Setup SSH for GitHub
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-          chmod 644  ~/.ssh/known_hosts
- 
-      - name: Deployment
-        uses: appleboy/ssh-action@master
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ubuntu
           key: ${{ secrets.SSH_PEM21_KEY }}
           port: 22
-          script: | 
+          script: |
             cd /var/www/html/vertixxx
-             git branch
-             git remote -v
-             git pull origin main
+            
+            # Fix directory permissions
+            sudo chown -R ubuntu:ubuntu .
+            sudo chmod -R 755 .
+            
+            # Clean git state
+            git reset --hard
+            git clean -fd
+            
+            # Set correct remote URL (using HTTPS with token)
+            git remote set-url origin https://${{ secrets.GH_TOKEN }}@github.com/thiruvenkadam5/Vertix_bos.git
+            
+            # Pull changes
+            git config --global --add safe.directory /var/www/html/vertixxx
+            git pull origin main
+            
+            # Fix any remaining permissions
+            sudo chown -R www-data:www-data .
+            echo "Deployment completed successfully!"
