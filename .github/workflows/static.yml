@@ -19,8 +19,8 @@ jobs:
       - name: Setup SSH for GitHub
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/github_rsa
+          chmod 600 ~/.ssh/github_rsa
           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
           chmod 644  ~/.ssh/known_hosts
  
