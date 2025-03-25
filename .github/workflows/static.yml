@@ -32,6 +32,9 @@ jobs:
           key: ${{ secrets.SSH_PEM21_KEY }}
           port: 22
           script: | 
-            cd /var/www/html/vertixxx
-             git branch
+                  cd /var/www/html/vertixxx
+                  git status
+                  git checkout main
+                  git pull origin main
+
         
