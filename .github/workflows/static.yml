@@ -32,7 +32,7 @@ jobs:
           script: | 
                   cd /var/www/html/vertixxx
                   git status
-                  git checkout main
-                  git pull origin main
-
+                  sudo git branch
+                  sudo git pull origin main
+            
         
