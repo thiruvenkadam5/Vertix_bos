@@ -7,14 +7,13 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted  # Fixed typo from "self-hosted"
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          # Use the default GitHub token for checkout
-          persist-credentials: false
+          fetch-depth: 0  # Fetches all history for all branches
 
       - name: Setup SSH Environment
         run: |
@@ -22,11 +21,10 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-          # Correct permissions for known_hosts
           chmod 600 ~/.ssh/known_hosts
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.7
+        uses: appleboy/ssh-action@v1.1.0  # Using latest stable version
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ubuntu
@@ -34,9 +32,8 @@ jobs:
           port: 22
           script: |
             cd /var/www/html/vertixxx
+            git config --global --add safe.directory /var/www/html/vertixxx
             git remote set-url origin git@github.com:your-username/your-repo.git
             git fetch origin
             git checkout main
-            git reset --hard origin/main
-            # Add any post-deploy commands here
-            # e.g., npm install, composer install, etc.
+            git
