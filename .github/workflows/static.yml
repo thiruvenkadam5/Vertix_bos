@@ -39,5 +39,5 @@ jobs:
             git pull origin main
             
             # Fix any remaining permissions
-            sudo chown -R www-data:www-data .
-            echo "Deployment completed successfully!"
+             sudo chown -R ubuntu:ubuntu .
+             echo "Deployment completed successfully!"
