@@ -34,5 +34,5 @@ jobs:
             git clean -fd
             git pull origin main
             # Restore ownership to www-data (for web server)
-           # sudo chown -R www-data:www-data .
+            #sudo chown -R www-data:www-data .
             echo "✅ Deployment completed successfully!"
