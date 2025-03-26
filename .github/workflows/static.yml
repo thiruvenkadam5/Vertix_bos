@@ -28,7 +28,7 @@ jobs:
             # Fix directory ownership (temporarily to ubuntu for Git operations)
             sudo chown -R ubuntu:ubuntu .
             # Pull changes using SSH (safer than HTTPS + token)
-            git remote set-url origin git@github.com:thiruvenkadam5/Vertix_bos.git
+            git remote set-url origin https://github.com/thiruvenkadam5/Vertix_bos.git
             git config --global --add safe.directory /var/www/html/vertixxx
             git reset --hard
             git clean -fd
