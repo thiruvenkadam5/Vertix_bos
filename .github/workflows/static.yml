@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          # Use SSH checkout instead of HTTPS
+          ssh-key: ${{ secrets.GH_SSH_PRIVATE_KEY }}
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.1.0
@@ -22,22 +25,14 @@ jobs:
           port: 22
           script: |
             cd /var/www/html/vertixxx
-            
-            # Fix directory permissions
+            # Fix directory ownership (temporarily to ubuntu for Git operations)
             sudo chown -R ubuntu:ubuntu .
-            sudo chmod -R 755 .
-            
-            # Clean git state
+            # Pull changes using SSH (safer than HTTPS + token)
+            git remote set-url origin https://github.com/thiruvenkadam5/Vertix_bos.git
+            git config --global --add safe.directory /var/www/html/vertixxx
             git reset --hard
             git clean -fd
-            
-            # Set correct remote URL (using HTTPS with token)
-            git remote set-url origin https://${{ secrets.GH_TOKEN }}@github.com/thiruvenkadam5/Vertix_bos.git
-            
-            # Pull changes
-            # git config --global --add safe.directory /var/www/html/vertixxx
             git pull origin main
-            
-            # Fix any remaining permissions
-            sudo chown -R www-data:www-data .
-            echo "Deployment completed successfully!"
+            # Restore ownership to www-data (for web server)
+            #sudo chown -R www-data:www-data .
+            echo "✅ Deployment completed successfully!"
