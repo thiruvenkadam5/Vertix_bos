@@ -36,16 +36,5 @@ jobs:
             # Fix any remaining permissions
             sudo chown -R ubuntu:ubuntu .
             echo "Deployment completed successfully!"
-            - name: Send error email
-             if: failure()
-                 uses: dawidd6/action-send-mail@v3
-                 with:
-                   server_address: smtp.gmail.com
-                   server_port: 587
-                   username: ${{ secrets.EMAIL_USERNAME }}
-                   subject: ❌ GitHub Action Failed
-                   to: sangeetha.p@hepl.com
-                   from: GitHub Actions <thiruvenkdam.b@hepl.com>
-                   body: |
-                     ❗ CI/CD pipeline failed on branch: ${{ github.ref }}
-                     🔍 Check the job here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          
+          
