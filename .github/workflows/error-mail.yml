@@ -27,7 +27,7 @@ jobs:
         from: GitHub Actions <${{ secrets.EMAIL_USERNAME }}>
         body: |
           ❗ The GitHub Actions workflow failed.
-          Repo: ${{ github.repository }}
-          Branch: ${{ github.ref }}
+          Repo: ${{ github.Vertix_bos }}
+          Branch: ${{ github.main }}
           Commit: ${{ github.sha }}
           View logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
